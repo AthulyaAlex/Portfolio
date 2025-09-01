@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Athulya Alex — Data Science Portfolio</title>
+  <meta name="description" content="Portfolio of Athulya Alex — Data Science, ML, DL, XAI"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-1:#0b0f17;
+      --bg-2:#151c29;
+      --card:#101827cc;
+      --card-border:rgba(255,255,255,.08);
+      --text:#e6eefc;
+      --muted:#a3b4d1;
+      --primary:#4f8cff;     /* used by particles */
+      --secondary:#9b6bff;
+      --accent:#ff6ea9;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --grad:linear-gradient(135deg,var(--primary),var(--secondary),var(--accent));
+    }
+    body.light {
+      --bg-1:#fdfdfd;
+      --bg-2:#f7f9fc;
+      --card:#ffffffdd;
+      --card-border:rgba(0,0,0,.08);
+      --text:#0b1321;
+      --muted:#6a778f;
+      --primary:#2f6df6;
+      --secondary:#8a59ff;
+      --accent:#ff4fa3;
+      --shadow:0 10px 20px rgba(0,0,0,.12);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body {
+      font-family: 'Poppins', system-ui, sans-serif;
+      background: var(--bg-1);
+      color: var(--text);
+      overflow-x: hidden;
+      transition: background .6s ease, color .6s ease;
+    }
+
+    /* ===== BACKGROUND LAYERS ===== */
+    .bg-canvas { position:fixed; inset:0; z-index:-6; pointer-events:none; }
+    .bg-blobs { position: fixed; inset: 0; z-index:-5; background: var(--bg-1); overflow: hidden; pointer-events:none; }
+    .blob { position: absolute; width: 500px; height: 500px; background: var(--grad); border-radius: 50%; filter: blur(120px); opacity: 0.5; animation: moveBlobs 25s ease-in-out infinite alternate; }
+    .blob:nth-child(1){ top: -100px; left: -100px; animation-delay:0s; }
+    .blob:nth-child(2){ bottom: -150px; right: -150px; animation-delay:5s; }
+    .blob:nth-child(3){ top: 200px; right: -200px; animation-delay:10s; }
+    @keyframes moveBlobs { 0% { transform: translate(0,0) scale(1); } 50% { transform: translate(100px, -80px) scale(1.2); } 100% { transform: translate(-120px, 100px) scale(0.9); } }
+
+    /* ===== NAVBAR ===== */
+    nav { position:sticky;top:0;z-index:50; background:rgba(0,0,0,.5); backdrop-filter: blur(12px); display:flex;justify-content:space-between;align-items:center; padding:12px 24px;border-bottom:1px solid var(--card-border); transition: background .6s ease; }
+    nav a { color:var(--text); text-decoration:none; font-weight:600; margin:0 12px; position:relative; }
+    nav a::after { content:""; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:var(--grad); transition:.3s; }
+    nav a:hover::after, nav a.active::after { width:100%; }
+
+    /* ===== HEADER ACTIONS ===== */
+    .actions { display:flex; gap:12px; align-items:center; }
+    .actions .btn { display:flex; align-items:center; gap:6px; border-radius:999px; padding:8px 14px; border:1px solid var(--card-border); background:rgba(255,255,255,.05); color:var(--text); font-weight:500; cursor:pointer; transition:.3s; }
+    .actions .btn:hover { background:rgba(255,255,255,.15); }
+
+    /* ===== HERO ===== */
+    .hero { display:grid; grid-template-columns:1.1fr .9fr; gap:32px; align-items:center; padding:80px 24px; max-width:1100px; margin:0 auto; }
+    .hero h1 { font-family:'Playfair Display', serif; font-size:clamp(32px,4vw,56px); line-height:1.1; background: var(--grad); -webkit-background-clip:text; color:transparent; }
+    .type { font-family:monospace; font-size:1.1rem; border-right:2px solid var(--primary); white-space:nowrap; overflow:hidden; margin-top:6px; }
+    .hero p { margin-top:14px; color:var(--muted); line-height:1.6; }
+    .hero .photo { aspect-ratio:1/1; border-radius:18px; overflow:hidden; border:1px solid var(--card-border); transform: perspective(1000px) rotateY(0deg); transition: transform .4s ease; }
+    .hero .photo:hover { transform: perspective(1000px) rotateY(6deg) rotateX(3deg); }
+    .hero img { width:100%; height:100%; object-fit:cover; }
+    .meta { margin-top:18px; display:flex; flex-wrap:wrap; gap:12px; }
+    .pill, .btn { background:rgba(255,255,255,.05); border:1px solid var(--card-border); padding:8px 14px; border-radius:999px; color:var(--text); font-size:.9rem; font-weight:500; cursor:pointer; display:flex; align-items:center; gap:6px; transition:.3s; }
+    .pill:hover, .btn:hover { background:rgba(255,255,255,.15); }
+    .copy-badge { font-size:.75rem; margin-left:6px; color:var(--accent); }
+
+    /* ===== SECTIONS / CARDS ===== */
+    section { max-width:1100px; margin:60px auto; padding:0 24px; }
+    .card { background:var(--card); border:1px solid var(--card-border); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); backdrop-filter: blur(12px); transition: transform .4s ease, opacity .6s ease; position:relative; overflow:hidden; }
+    .card.reveal { opacity:0; transform: translateY(30px); }
+    .card.reveal.show { opacity:1; transform:none; }
+    h2 { font-family:'Playfair Display',serif; font-size:2rem; margin-bottom:18px; }
+
+    /* subtle moving sheen inside cards */
+    .card::after {
+      content:""; position:absolute; inset:-40%; background:conic-gradient(from 0deg, transparent 0 70%, rgba(255,255,255,.06) 72% 78%, transparent 80% 100%);
+      animation: spin 12s linear infinite; pointer-events:none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== TIMELINE ===== */
+    .timeline { display:grid; gap:20px; }
+    .edu-item { padding:20px; border-radius:14px; background:var(--card); border:1px solid var(--card-border); position:relative; overflow:hidden; box-shadow:var(--shadow); transition:transform .3s ease; }
+    .edu-item:hover { transform:translateY(-4px); }
+    .edu-item::before { content:""; position:absolute; left:0; top:0; height:100%; width:5px; background:var(--grad); }
+    .edu-item .date { font-size:.85rem; color:var(--muted); margin-bottom:4px; }
+    .edu-item .role { font-weight:600; margin-bottom:6px; }
+    .edu-item .org { font-size:.95rem; margin-bottom:6px; color:var(--secondary); }
+    .edu-item p { font-size:.9rem; color:var(--muted); }
+
+    /* ===== SKILLS ===== */
+    .skills { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+    .skill { padding:16px; border:1px solid var(--card-border); border-radius:14px; background:rgba(255,255,255,.03); }
+    .meter { margin-top:10px; height:10px; border-radius:999px; background:rgba(255,255,255,.1); overflow:hidden; }
+    .meter span { display:block; height:100%; width:0; background:var(--grad); transition:width 1.5s ease; }
+
+    /* ===== PROJECTS ===== */
+    .projects { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }
+    .project img { width:100%; border-radius:12px; filter:grayscale(100%); transition:.4s; }
+    .project:hover img { filter:grayscale(0%); transform:scale(1.03); }
+
+    /* ===== CONTACT ===== */
+    .section .inner { max-width:600px; margin:0 auto; text-align:center; }
+    .section .heading { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:12px; }
+    .section .heading .bar { width:40px; height:2px; background:var(--grad); }
+    .section p { color:var(--muted); }
+    .section .btn { margin:6px; }
+
+    /* ===== FOOTER ===== */
+    footer { text-align:center; padding:30px; color:var(--muted); font-size:.9rem; }
+    .glowline { height:2px; background:var(--grad); margin-bottom:12px; border-radius:2px; }
+
+    /* ===== BACK TO TOP ===== */
+    #backTop { position:fixed; bottom:20px; right:20px; z-index:60; width:48px; height:48px; border-radius:50%; border:none; background:var(--grad); color:#fff; cursor:pointer; display:grid; place-items:center; opacity:0; pointer-events:none; transition:.3s; }
+    #backTop.visible { opacity:1; pointer-events:auto; }
+
+    /* accessibility: reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      .blob { animation:none }
+      .card::after { display:none }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated particle background -->
+  <canvas id="bgCanvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Background blobs -->
+  <div class="bg-blobs">
+    <div class="blob"></div>
+    <div class="blob"></div>
+    <div class="blob"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav>
+<div class="brand"><span class="dot"></span> <a href="#top" class="brand">Athulya Alex</a></div>
+    <div>
+      <a href="#about" class="active">About</a>
+      <a href="#experience">Internships</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="actions">
+      <a class="btn icon" href="mailto:athulyaalex321@gmail.com"><i class="fa-solid fa-envelope"></i><span>Email</span></a>
+      <!-- Put your actual resume file in the same folder with this exact name -->
+      <a class="btn primary icon" href="Athulya_Alex_Resume.pdf" id="downloadResume" download>
+        <i class="fa-solid fa-file-arrow-down"></i><span>Resume</span>
+      </a>
+      <button id="themeBtn" class="btn toggle" title="Toggle theme" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="about" class="hero card reveal">
+    <div>
+      <h2>Hello, I’m</h2>
+      <h1>Athulya Alex</h1>
+      <div class="type" id="type"></div>
+      <p>Passionate data science student pursuing an Integrated M.Sc. in Data Science, driven by a deep interest in transforming data into actionable insights. Skilled in machine learning, deep learning, and explainable AI, with hands-on experience in building predictive models and data-centric applications. Eager to apply my analytical thinking and technical skills to solve real-world problems and contribute to innovation-focused teams.</p>
+      <div class="meta">
+        <span class="pill"><i class="fa-solid fa-location-dot"></i> Kerala, India</span>
+        <button class="btn copy-btn" data-copy="+91-9446792072"><i class="fa-solid fa-copy"></i> Copy Phone <span class="copy-badge" hidden>Copied!</span></button>
+        <button class="btn copy-btn" data-copy="athulyaalex321@gmail.com"><i class="fa-solid fa-copy"></i> Copy Email <span class="copy-badge" hidden>Copied!</span></button>
+        <a class="pill" href="https://github.com/AthulyaAlex" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a class="pill" href="https://www.linkedin.com/in/athulya-alex-37b9a8331" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+      </div>
+    </div>
+    <div class="photo"><img src="your-photo.jpg" alt="Athulya Alex"></div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="card reveal">
+    <h2>Internships</h2>
+    <div class="timeline">
+      <div class="edu-item">
+        <div class="date">Dec 2024 – Jun 2025</div>
+        <div class="role">Winter Research Intern</div>
+        <div class="org">FACTS-H LAB, IIIT Kottayam</div>
+        <p>Worked on Explainable AI for ML models. Implemented SHAP, LIME, ICE, PDP for interpretability and contributed to collaborative research.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="card reveal">
+    <h2>Education</h2>
+    <div class="timeline">
+      <div class="edu-item">
+        <div class="date">2021 – Present</div>
+        <div class="role">Integrated MSc Computer Science — Data Science</div>
+        <div class="org">Nirmala College (Autonomous), Muvattupuzha</div>
+        <p>Completed Bachelor's level (UG) component — <strong>CGPA: 8.7</strong></p>
+      </div>
+      <div class="edu-item">
+        <div class="date">2019 – 2021</div>
+        <div class="role">DHSE, Class XII</div>
+        <div class="org">Nirmala HSS, Muvattupuzha</div>
+        <p><strong>CGPA: 9.3</strong></p>
+      </div>
+      <div class="edu-item">
+        <div class="date">2018 – 2019</div>
+        <div class="role">CBSE, Class X</div>
+        <div class="org">Nirmala Public School, Muvattupuzha, Kerala</div>
+        <p><strong>CGPA: 8.2</strong></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="card reveal">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill">Python<div class="meter"><span style="width:92%"></span></div></div>
+      <div class="skill">Java<div class="meter"><span style="width:78%"></span></div></div>
+      <div class="skill">C++<div class="meter"><span style="width:70%"></span></div></div>
+      <div class="skill">C<div class="meter"><span style="width:72%"></span></div></div>
+      <div class="skill">HTML/CSS/JS<div class="meter"><span style="width:85%"></span></div></div>
+      <div class="skill">NumPy / Pandas<div class="meter"><span style="width:88%"></span></div></div>
+      <div class="skill">Matplotlib / Seaborn<div class="meter"><span style="width:82%"></span></div></div>
+      <div class="skill">Scikit-learn<div class="meter"><span style="width:84%"></span></div></div>
+      <div class="skill">XAI (SHAP, LIME, PDP, ICE)<div class="meter"><span style="width:80%"></span></div></div>
+      <div class="skill">SQL / MySQL<div class="meter"><span style="width:78%"></span></div></div>
+      <div class="skill">Tableau<div class="meter"><span style="width:70%"></span></div></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="card reveal">
+    <h2>Projects</h2>
+    <div class="projects">
+      <div class="project card reveal">
+        <img src="project2.jpg" alt="Nursery Project">
+        <h3>Plant Nursery Management System</h3>
+        <p>Full-stack website using Java, JSP, Servlets, MySQL for nursery operations & online sales.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="card reveal section">
+    <div class="inner">
+      <div class="heading"><div class="bar"></div><h2>Get in touch</h2></div>
+      <p>Open to internships, research projects, and exciting data challenges.</p>
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px">
+        <a class="btn icon primary" href="mailto:athulyaalex321@gmail.com">
+          <i class="fa-solid fa-paper-plane"></i> Email Me
+        </a>
+        <a class="btn" href="https://www.linkedin.com/in/athulya-alex-37b9a8331" target="_blank" rel="noreferrer">LinkedIn</a>
+       
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="container">
+    <div class="glowline"></div>
+    <div>© <span id="year"></span> Athulya Alex. All rights reserved.</div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button id="backTop" class="backtop" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
+  <script>
+    // Set current year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ----- Copy buttons (with fallback for non-secure contexts) -----
+    function legacyCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+      return Promise.resolve();
+    }
+    const copyButtons = document.querySelectorAll(".copy-btn");
+    copyButtons.forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const text = btn.getAttribute("data-copy");
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            await legacyCopy(text);
+          }
+          const badge = btn.querySelector(".copy-badge");
+          if (badge) { badge.hidden = false; setTimeout(() => badge.hidden = true, 1500); }
+        } catch (err) {
+          alert("Copy failed: " + err);
+        }
+      });
+    });
+
+    // ----- Resume download fallback (opens if download blocked) -----
+    const resumeLink = document.getElementById('downloadResume');
+    resumeLink.addEventListener('click', (e) => {
+      // 'download' attribute handles most cases; keep href as your PDF filename
+      // If the file is missing, browser shows 404; that's fine.
+      // This handler mainly ensures it's a direct file, not '#'
+      if (!resumeLink.getAttribute('href') || resumeLink.getAttribute('href') === '#') {
+        e.preventDefault();
+        alert('Please place "Athulya_Alex_Resume.pdf" next to this HTML or update the link.');
+      }
+    });
+
+    // ----- Back to top -----
+    const backTop = document.getElementById("backTop");
+    window.addEventListener("scroll", () => {
+      backTop.classList.toggle("visible", window.scrollY > 400);
+    });
+    backTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // ----- Theme toggle -----
+    const themeBtn = document.getElementById("themeBtn");
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      updateParticleColors(); // keep particles in sync with theme
+    });
+
+    // ----- Typewriter effect -----
+    const typeEl = document.getElementById("type");
+    const phrases = ["Data Science Enthusiast", "Machine Learning Practitioner", "Deep Learning Explorer", "XAI Researcher"];
+    let i=0, j=0, isDeleting=false;
+    function type() {
+      const current = phrases[i % phrases.length];
+      typeEl.textContent = current.substring(0, j);
+      if (!isDeleting && j < current.length) j++;
+      else if (isDeleting && j > 0) j--;
+      else if (!isDeleting && j === current.length) { isDeleting = true; setTimeout(type, 700); return; }
+      else if (isDeleting && j === 0) { isDeleting = false; i++; }
+      setTimeout(type, isDeleting ? 50 : 120);
+    }
+    type();
+
+    // ----- Reveal on scroll -----
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('show'); });
+    }, { threshold:0.2 });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ===== Animated Particle Network Background =====
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [], maxDist = 130, count = 70;
+    let colorRGB = {r:79,g:140,b:255}; // default from --primary
+
+    function hexToRgb(hex){
+      const m = hex.trim().match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i);
+      return m ? { r: parseInt(m[1],16), g: parseInt(m[2],16), b: parseInt(m[3],16) } : null;
+    }
+    function updateParticleColors(){
+      const primary = getComputedStyle(document.body).getPropertyValue('--primary').trim();
+      const rgb = hexToRgb(primary);
+      if (rgb) colorRGB = rgb;
+    }
+    function resize(){
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    function init(){
+      particles = [];
+      for(let i=0;i<count;i++){
+        particles.push({
+          x: Math.random()*W,
+          y: Math.random()*H,
+          vx: (Math.random()-.5)*0.6,
+          vy: (Math.random()-.5)*0.6,
+          r: Math.random()*2 + 1.2
+        });
+      }
+    }
+    function draw(){
+      ctx.clearRect(0,0,W,H);
+      // draw points
+      ctx.fillStyle = `rgba(${colorRGB.r},${colorRGB.g},${colorRGB.b},0.45)`;
+      for(const p of particles){
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+      // draw links
+      for(let i=0;i<particles.length;i++){
+        for(let j=i+1;j<particles.length;j++){
+          const a=particles[i], b=particles[j];
+          const dx=a.x-b.x, dy=a.y-b.y, d=Math.hypot(dx,dy);
+          if(d<maxDist){
+            const alpha = (1 - d/maxDist) * 0.6;
+            ctx.strokeStyle = `rgba(${colorRGB.r},${colorRGB.g},${colorRGB.b},${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+    function step(){
+      // respect reduced motion
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) return; // do not animate
+      for(const p of particles){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x<0||p.x>W) p.vx*=-1;
+        if(p.y<0||p.y>H) p.vy*=-1;
+      }
+      draw();
+      requestAnimationFrame(step);
+    }
+
+    // init background
+    resize(); init(); updateParticleColors(); draw(); requestAnimationFrame(step);
+    window.addEventListener('resize', ()=>{ resize(); init(); });
+
+  </script>
+</body>
+</html>
